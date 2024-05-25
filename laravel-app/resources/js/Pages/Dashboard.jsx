@@ -1,69 +1,92 @@
 import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Monitor, User, Users, BookOpen, Menu, MoreVertical } from "lucide-react";
-
-const Icon = ({ icon, size, className }) => {
-  const IconComponent = icon;
-  return <IconComponent size={size} className={className} />;
-};
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faGraduationCap, faFile, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
 
 const Dashboard = ({ auth }) => {
-  const location = useLocation();
-  const [expanded, setExpanded] = useState(true);
+  // State to track whether the sidebar is open or closed
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const toggleExpansion = () => {
-    setExpanded((prevExpanded) => !prevExpanded);
+  // Function to toggle the sidebar
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const activeClass = 'rounded-lg bg-gray-300 text-black px-8 py-2';
+  // State to track active sidebar item
+  const [activeItem, setActiveItem] = useState(null);
 
-  const sideBarArray = [
-    { name: 'Dashboard', path: '/dashboard', icon: Monitor },
-    { name: 'Admin', path: '/admin', icon: User },
-    { name: 'Students', path: '/students', icon: Users },
-    { name: 'Content', path: '/content', icon: BookOpen },
+  const handleItemClick = (title) => {
+    setActiveItem(title);
+  };
+
+  const items = [
+    { icon: faCalendarAlt, title: 'Upcoming Events', description: 'Stay updated with our upcoming events and activities. From workshops to seminars, never miss an opportunity to engage and connect with your community.' },
+    { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills. Whether you’re a beginner or an expert, there’s something for everyone. Unlock new knowledge and unleash your potential.' },
+    { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly. Simplify the enrollment process, track student progress, and ensure a smooth journey from admission to graduation.' },
+    { icon: faBuildingColumns, title: 'Program', description: 'Efficiently manage your educational programs and curriculum. From designing courses to tracking outcomes, streamline your program management tasks and elevate the learning experience for your students.' },
   ];
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <aside className={`h-full bg-white border-r shadow-sm ${expanded ? 'w-64' : 'w-16'}`}>
-        <div className="p-4 pb-2 flex justify-between items-center">
-          <button
-            onClick={toggleExpansion}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
-          >
-            {expanded ? <Menu /> : <Menu />}
-          </button>
-        </div>
+    <AuthenticatedLayout
+      user={auth.user}
+      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Mackenzie University</h2>}
+    >
+      <Head title="Dashboard" />
 
-        <ul className={`flex flex-col items-center ${expanded ? 'space-y-5' : 'hidden'}`}>
-          {sideBarArray.map((item, index) => (
-            <li key={index} className="mb-5">
-              <NavLink
-                exact
-                to={item.path}
-                className={`text-black flex items-center ${location.pathname === item.path ? activeClass : ''}`}
-              >
-                {expanded && <Icon icon={item.icon} size={20} className="mr-2" />}
-                <span>{item.name}</span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-
-        <div className="border-t flex p-3">
-          <div className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}`}>
-            <MoreVertical size={20} />
+      <div className="flex">
+        {/* Sidebar */}
+        <div className={`w-64 bg-gray-800 min-h-screen text-white transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+          <div className="sticky top-0 p-6">
+            <h2 className="text-2xl font-semibold mb-4">Navigation</h2>
+            <nav>
+              <ul>
+                {items.map((item, index) => (
+                  <li key={index} className="mb-2">
+                    <a
+                      href="#"
+                      className={`flex items-center text-lg p-2 rounded hover:bg-gray-700 ${activeItem === item.title ? 'bg-gray-900' : ''}`}
+                      onClick={() => handleItemClick(item.title)}
+                    >
+                      <FontAwesomeIcon icon={item.icon} className="mr-2" />
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
-      </aside>
 
-      {/* Main Content */}
-      <main className="flex-1">
-        {/* Your main content goes here */}
-      </main>
-    </div>
+        {/* Main Content */}
+        <div className="flex-1 md:ml-64 p-6">
+          {/* Sidebar toggle button */}
+          <button
+            className="block md:hidden text-gray-800 hover:text-gray-600 focus:outline-none mb-4"
+            onClick={toggleSidebar}
+          >
+            {isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
+          </button>
+
+          <div className="flex justify-between mb-4">
+            <h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <div className="text-sm text-gray-600">Current Session: 2018-2019</div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {items.map((item, index) => (
+              <div
+                key={index}
+                className={`bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow ${activeItem === item.title ? 'border-4 border-blue-500' : ''}`}
+              >
+                <h3 className="text-lg text-gray-800 mb-2">{item.title}</h3>
+                <p className="text-gray-700">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </AuthenticatedLayout>
   );
 };
 
