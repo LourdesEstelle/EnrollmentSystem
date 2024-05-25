@@ -1,21 +1,38 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { useState } from 'react';
+import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Content from './components/Content';
+import Sidebar from './components/Sidebar';
+import Dashboard from './components/Dashboard';
+import Students from './components/Students';
+import Admin from './components/Admin';
+import Message from './components/Message';
+import MessageClass from './components/MessageClass';
+import TestComponents from './components/TestComponents';
 
-export default function Dashboard({ auth }) {
-    return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
-            <Head title="Dashboard" />
+function App() {
+  const [count, setCount] = useState(0);
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">You're logged in!</div>
-                    </div>
-                </div>
-            </div>
-        </AuthenticatedLayout>
-    );
+  return (
+    <Router>
+      <div className="flex flex-col h-screen w-screen">
+        <Header />
+        <div className="flex flex-1">
+          <Sidebar />
+          <Routes>
+            <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/admin" element={<Admin />} />
+            <Route exact path="/students" element={<Students />} />
+            <Route exact path="/message" element={<Message />} />
+            <Route exact path="/content" element={<Content />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  );
 }
+
+export default App;
