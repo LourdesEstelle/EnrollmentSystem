@@ -1,38 +1,70 @@
-import { useState } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Content from './components/Content';
-import Sidebar from './components/Sidebar';
-import Dashboard from './components/Dashboard';
-import Students from './components/Students';
-import Admin from './components/Admin';
-import Message from './components/Message';
-import MessageClass from './components/MessageClass';
-import TestComponents from './components/TestComponents';
+import React, { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Monitor, User, Users, BookOpen, Menu, MoreVertical } from "lucide-react";
 
-function App() {
-  const [count, setCount] = useState(0);
+const Icon = ({ icon, size, className }) => {
+  const IconComponent = icon;
+  return <IconComponent size={size} className={className} />;
+};
+
+const Dashboard = ({ auth }) => {
+  const location = useLocation();
+  const [expanded, setExpanded] = useState(true);
+
+  const toggleExpansion = () => {
+    setExpanded((prevExpanded) => !prevExpanded);
+  };
+
+  const activeClass = 'rounded-lg bg-gray-300 text-black px-8 py-2';
+
+  const sideBarArray = [
+    { name: 'Dashboard', path: '/dashboard', icon: Monitor },
+    { name: 'Admin', path: '/admin', icon: User },
+    { name: 'Students', path: '/students', icon: Users },
+    { name: 'Content', path: '/content', icon: BookOpen },
+  ];
 
   return (
-    <Router>
-      <div className="flex flex-col h-screen w-screen">
-        <Header />
-        <div className="flex flex-1">
-          <Sidebar />
-          <Routes>
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/admin" element={<Admin />} />
-            <Route exact path="/students" element={<Students />} />
-            <Route exact path="/message" element={<Message />} />
-            <Route exact path="/content" element={<Content />} />
-          </Routes>
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <aside className={`h-full bg-white border-r shadow-sm ${expanded ? 'w-64' : 'w-16'}`}>
+        <div className="p-4 pb-2 flex justify-between items-center">
+          <button
+            onClick={toggleExpansion}
+            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+          >
+            {expanded ? <Menu /> : <Menu />}
+          </button>
         </div>
-        <Footer />
-      </div>
-    </Router>
-  );
-}
 
-export default App;
+        <ul className={`flex flex-col items-center ${expanded ? 'space-y-5' : 'hidden'}`}>
+          {sideBarArray.map((item, index) => (
+            <li key={index} className="mb-5">
+              <NavLink
+                exact
+                to={item.path}
+                className={`text-black flex items-center ${location.pathname === item.path ? activeClass : ''}`}
+              >
+                {expanded && <Icon icon={item.icon} size={20} className="mr-2" />}
+                <span>{item.name}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+
+        <div className="border-t flex p-3">
+          <div className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}`}>
+            <MoreVertical size={20} />
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1">
+        {/* Your main content goes here */}
+      </main>
+    </div>
+  );
+};
+
+export default Dashboard;
