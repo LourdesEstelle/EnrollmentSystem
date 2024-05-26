@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faGraduationCap, faFile, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
+import { Link } from '@inertiajs/inertia-react'; // Use Inertia's Link for client-side routing
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
@@ -16,15 +17,19 @@ const Dashboard = ({ auth }) => {
   // State to track active sidebar item
   const [activeItem, setActiveItem] = useState(null);
 
-  const handleItemClick = (title) => {
-    setActiveItem(title);
-  };
-
+  // Define sidebar items
   const items = [
-    { icon: faCalendarAlt, title: 'Upcoming Events', description: 'Stay updated with our upcoming events and activities. From workshops to seminars, never miss an opportunity to engage and connect with your community.' },
-    { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills. Whether you’re a beginner or an expert, there’s something for everyone. Unlock new knowledge and unleash your potential.' },
-    { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly. Simplify the enrollment process, track student progress, and ensure a smooth journey from admission to graduation.' },
-    { icon: faBuildingColumns, title: 'Program', description: 'Efficiently manage your educational programs and curriculum. From designing courses to tracking outcomes, streamline your program management tasks and elevate the learning experience for your students.' },
+    { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/courses' },
+    { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', link: '/dashboard/enrollment' },
+    { icon: faBuildingColumns, title: 'Program', description: 'Efficiently manage your educational programs and curriculum.', link: '/dashboard/program' },
+  ];
+
+  // Sample data for college courses
+  const courses = [
+    { title: 'Computer Science', description: 'Learn programming, algorithms, and computer systems.' },
+    { title: 'Mechanical Engineering', description: 'Explore the principles of mechanics, materials, and design.' },
+    { title: 'Psychology', description: 'Study the human mind and behavior through research and analysis.' },
+    { title: 'Business Administration', description: 'Develop skills in management, marketing, and finance.' },
   ];
 
   return (
@@ -43,14 +48,14 @@ const Dashboard = ({ auth }) => {
               <ul>
                 {items.map((item, index) => (
                   <li key={index} className="mb-2">
-                    <a
-                      href="#"
+                    <Link
+                      href={item.link}
                       className={`flex items-center text-lg p-2 rounded hover:bg-gray-700 ${activeItem === item.title ? 'bg-gray-900' : ''}`}
-                      onClick={() => handleItemClick(item.title)}
+                      onClick={() => setActiveItem(item.title)}
                     >
                       <FontAwesomeIcon icon={item.icon} className="mr-2" />
                       {item.title}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -73,16 +78,19 @@ const Dashboard = ({ auth }) => {
             <div className="text-sm text-gray-600">Current Session: 2018-2019</div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                className={`bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow ${activeItem === item.title ? 'border-4 border-blue-500' : ''}`}
-              >
-                <h3 className="text-lg text-gray-800 mb-2">{item.title}</h3>
-                <p className="text-gray-700">{item.description}</p>
-              </div>
-            ))}
+          {/* Courses */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2">College Courses</h3>
+            <ul className="divide-y divide-gray-200">
+              {courses.map((course, index) => (
+                <li key={index} className="py-2">
+                  <div>
+                    <p className="text-lg font-medium text-gray-800">{course.title}</p>
+                    <p className="text-sm text-gray-500">{course.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
