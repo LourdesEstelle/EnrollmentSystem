@@ -1,6 +1,9 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import '@/src/styles/style.css';
+import '@/src/styles/styles.css';
+
 
 const Statistics = ({ auth }) => {
   return (

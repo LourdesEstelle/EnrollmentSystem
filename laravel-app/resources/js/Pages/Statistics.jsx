@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import axios from 'axios'; // Assuming you're using axios for API requests
 
+
 const Statistics = ({ auth }) => {
   const [countStudents, setCountStudents] = useState(0);
   const [countClasses, setCountClasses] = useState(0);
