@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Session = ({ children }) => {
-    const [user, setUser] = useState(null);
+const CheckSession = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const checkSession = async () => {
             try {
-                const response = await axios.get('/api/session');
-                if (response.data.user) {
-                    setUser(response.data.user);
+                const sessionId = sessionStorage.getItem('id');
+                if (!sessionId || sessionId.trim() === '') {
+                    navigate('/index.php');
                 } else {
-                    navigate('/login');
+                    const response = await axios.get('/api/check-session', {
+                        params: { id: sessionId }
+                    });
+
+                    if (response.data.redirect) {
+                        navigate(response.data.redirect);
+                    } else if (response.data.username) {
+                        console.log(response.data.username);
+                    } else if (response.data.error) {
+                        console.error(response.data.error);
+                    }
                 }
             } catch (error) {
-                console.error('Error fetching the session data', error);
-                navigate('/login');
+                console.error('Error checking session:', error);
             }
         };
 
-        fetchUser();
+        checkSession();
     }, [navigate]);
 
-    if (!user) {
-        return <div>Loading...</div>;
-    }
-
-    return <>{children}</>;
+    return null; // This component doesn't render anything visible
 };
 
-export default Session;
+export default CheckSession;
