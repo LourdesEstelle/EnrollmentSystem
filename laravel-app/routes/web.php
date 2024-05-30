@@ -41,20 +41,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('api')->get('/check-session', function (Request $request) {
-    $sessionId = $request->query('id');
-    if (!$sessionId || trim($sessionId) === '') {
-        return response()->json(['redirect' => '/index.php']);
-    }
-
-    $user = DB::table('users')->where('user_id', $sessionId)->first();
-    if ($user) {
-        return response()->json(['username' => $user->username]);
-    } else {
-        return response()->json(['error' => 'User not found'], 404);
-    }
-});
-
 // Group routes that require authentication
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,4 +49,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

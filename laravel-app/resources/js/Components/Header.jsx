@@ -1,5 +1,5 @@
 import React from 'react';
-import dbConnection from '/resources/js/Components/dbcon.jsx';
+import DbCon from './dbcon'; // Assuming the file is in the same directory
 
 const MyComponent = () => {
     return (

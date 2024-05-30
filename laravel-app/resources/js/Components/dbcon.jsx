@@ -1,11 +1,7 @@
 // dbcon.jsx
-import mysql from 'mysql2/promise';
-
-const connection = mysql.createPool({
+export const connection = {
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'bilal'
-});
-
-export default connection;
+};
