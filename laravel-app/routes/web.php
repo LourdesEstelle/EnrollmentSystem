@@ -29,6 +29,8 @@ Route::get('/dashboard/students', [StudentsController::class, 'index'])
 
 
 
+
+
 // Define the route for the users page
 Route::get('/users', function () {
     return Inertia::render('Users/UserComponent');
