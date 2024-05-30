@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import dbcon from './dbcon';
+import { connection } from './dbcon';
 import ModalDelete from './modal_delete';
 
 const StudentsTable = () => {

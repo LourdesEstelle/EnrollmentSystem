@@ -17,11 +17,10 @@ const Students = ({ auth }) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        fetch('/api/students')
-            .then(response => response.json())
-            .then(data => {
-                setStudents(data.students);
-                setCount(data.count);
+        axios.get('/api/students')
+            .then(response => {
+                setStudents(response.data.students);
+                setCount(response.data.count);
             })
             .catch(error => console.error('Error fetching students:', error));
     }, []);
@@ -31,37 +30,35 @@ const Students = ({ auth }) => {
             <Head title="Students" />
             <Header />
             <Session />
-            <body>
-                <Navbar />
-                <center><img src="/images/casap.png" alt="CASAP" /></center>
-                <div className="container-fluid">
-                    <div className="row-fluid">
-                        <SidebarStudents />
-                        <div className="span9" id="">
-                            <div className="row-fluid">
-                                <div id="block_bg" className="block">
-                                    <div className="navbar navbar-inner block-header">
-                                        <div className="muted pull-left">
-                                            <i className="icon-reorder icon-large"></i> Students List
-                                        </div>
-                                        <div className="muted pull-right">
-                                            Number of Students: <span className="badge badge-info">{count}</span>
-                                        </div>
+            <Navbar />
+            <center><img src="/images/casap.png" alt="CASAP" /></center>
+            <div className="container-fluid">
+                <div className="row-fluid">
+                    <SidebarStudents />
+                    <div className="span9">
+                        <div className="row-fluid">
+                            <div id="block_bg" className="block">
+                                <div className="navbar navbar-inner block-header">
+                                    <div className="muted pull-left">
+                                        <i className="icon-reorder icon-large"></i> Students List
                                     </div>
-                                    <div className="block-content collapse in">
-                                        <div className="span12" id="studentTableDiv">
-                                            <h2 id="noch">Students List</h2>
-                                            <StudentsTable students={students} />
-                                        </div>
+                                    <div className="muted pull-right">
+                                        Number of Students: <span className="badge badge-info">{count}</span>
+                                    </div>
+                                </div>
+                                <div className="block-content collapse in">
+                                    <div className="span12" id="studentTableDiv">
+                                        <h2 id="noch">Students List</h2>
+                                        <StudentsTable students={students} />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <Footer />
                 </div>
-                <Script />
-            </body>
+            </div>
+            <Footer />
+            <Script />
         </AuthenticatedLayout>
     );
 };
