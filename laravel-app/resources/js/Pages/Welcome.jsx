@@ -19,7 +19,7 @@ export default function Welcome({ auth }) {
             <div className="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex flex-col items-center justify-center text-white px-4 sm:px-0 relative">
                 {/* Background image with a stronger semi-transparent black overlay */}
                 <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url("https://cdn.i-scmp.com/sites/default/files/d8/images/canvas/2023/12/15/581dbb04-4e2a-4be4-a8f0-67bd06a72219_7211c2d2.jpg")' }}></div>
-                <div className="absolute inset-0 bg-black opacity-70"></div>
+                <div className="absolute inset-0 bg-black opacity-60"></div>
                 {/* Content */}
                 <div className="max-w-2xl text-center relative z-10">
                     <header className="py-10">
@@ -40,7 +40,7 @@ export default function Welcome({ auth }) {
                             <>
                                 <Link
                                     href={route('login')}
-                                    className="btn-secondary mx-2 mt-4 sm:mt-0 bg-transparent border-2 border-white text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-white hover:text-blue-500"
+                                    className="btn-primary mx-2 mt-4 sm:mt-0 bg-white text-blue-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-gray-100"
                                 >
                                     Log in
                                 </Link>

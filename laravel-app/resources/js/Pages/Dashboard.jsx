@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faFile, faBuildingColumns, faChartLine } from '@fortawesome/free-solid-svg-icons'; // Add the appropriate icon
+import { faCalendarAlt, faGraduationCap, faFile, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@inertiajs/inertia-react'; // Use Inertia's Link for client-side routing
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
@@ -22,10 +22,7 @@ const Dashboard = ({ auth }) => {
     { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/courses' },
     { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', link: '/dashboard/enrollment' },
     { icon: faBuildingColumns, title: 'Program', description: 'Efficiently manage your educational programs and curriculum.', link: '/dashboard/program' },
-    { icon: faChartLine, title: 'Statistics', description: 'View statistics and reports.', link: '/dashboard/statistics' },
-    { icon: faChartLine, title: 'Students', description: 'View statistics and reports.', link: '/dashboard/students' },
   ];
-  
 
   // Sample data for college courses
   const courses = [
@@ -59,6 +56,16 @@ const Dashboard = ({ auth }) => {
                       <FontAwesomeIcon icon={item.icon} className="mr-2" />
                       {item.title}
                     </Link>
+                    {item.title === 'Program' && (
+                      <button
+                        className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
+                        onClick={() => {
+                          window.location.href = '/dashboard/enrollment';
+                        }}
+                      >
+                        Enrollment Process
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
