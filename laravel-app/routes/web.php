@@ -48,4 +48,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+use App\Http\Controllers\EnrollmentController;
+
+Route::get('/dashboard/enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
+
+use App\Http\Controllers\EnrollmentFormController;
+
+Route::post('/enroll', [EnrollmentFormController::class, 'store']);
+
+use App\Http\Controllers\CourseController;
+
+Route::get('/api/courses', [CourseController::class, 'index']);
+
+
+Route::get('/api/enrollments', [EnrollmentFormController::class, 'index']);
+
 require __DIR__.'/auth.php';

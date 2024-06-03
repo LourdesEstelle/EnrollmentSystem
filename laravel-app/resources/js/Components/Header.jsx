@@ -1,7 +1,9 @@
 import React from 'react';
-import DbCon from './dbcon'; // Assuming the file is in the same directory
+import { connection } from './dbcon'; // Importing the named export
 
 const MyComponent = () => {
+    console.log(connection); // Example usage of the connection object
+
     return (
         <html className="no-js">
             <head>
@@ -35,8 +37,13 @@ const MyComponent = () => {
                 <script src="js/bootstrap.js" type="text/javascript"></script>
             </head>
             <body>
-                {/* Include dbcon component */}
-                <DbCon />
+                {/* Example usage of connection object */}
+                <div>
+                    <h1>Database Connection Information</h1>
+                    <p>Host: {connection.host}</p>
+                    <p>User: {connection.user}</p>
+                    <p>Database: {connection.database}</p>
+                </div>
             </body>
         </html>
     );

@@ -1,38 +1,33 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faFile, faBuildingColumns, faChartLine } from '@fortawesome/free-solid-svg-icons'; // Add the appropriate icon
-import { Link } from '@inertiajs/inertia-react'; // Use Inertia's Link for client-side routing
+import { faGraduationCap, faFile, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
+import { Link } from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import axios from 'axios';
 
 const Dashboard = ({ auth }) => {
-  // State to track whether the sidebar is open or closed
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(null);
+  const [enrollments, setEnrollments] = useState([]);
 
-  // Function to toggle the sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // State to track active sidebar item
-  const [activeItem, setActiveItem] = useState(null);
+  const fetchEnrollments = async () => {
+    try {
+      const response = await axios.get('/api/enrollments');
+      setEnrollments(response.data);
+    } catch (error) {
+      console.error('Error fetching enrollments:', error);
+    }
+  };
 
-  // Define sidebar items
   const items = [
     { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/courses' },
     { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', link: '/dashboard/enrollment' },
     { icon: faBuildingColumns, title: 'Program', description: 'Efficiently manage your educational programs and curriculum.', link: '/dashboard/program' },
-    { icon: faChartLine, title: 'Statistics', description: 'View statistics and reports.', link: '/dashboard/statistics' },
-    { icon: faChartLine, title: 'Students', description: 'View statistics and reports.', link: '/dashboard/students' },
-  ];
-  
-
-  // Sample data for college courses
-  const courses = [
-    { title: 'Computer Science', description: 'Learn programming, algorithms, and computer systems.' },
-    { title: 'Mechanical Engineering', description: 'Explore the principles of mechanics, materials, and design.' },
-    { title: 'Psychology', description: 'Study the human mind and behavior through research and analysis.' },
-    { title: 'Business Administration', description: 'Develop skills in management, marketing, and finance.' },
   ];
 
   return (
@@ -43,7 +38,6 @@ const Dashboard = ({ auth }) => {
       <Head title="Dashboard" />
 
       <div className="flex">
-        {/* Sidebar */}
         <div className={`w-64 bg-gray-800 min-h-screen text-white transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
           <div className="sticky top-0 p-6">
             <h2 className="text-2xl font-semibold mb-4">Navigation</h2>
@@ -59,6 +53,16 @@ const Dashboard = ({ auth }) => {
                       <FontAwesomeIcon icon={item.icon} className="mr-2" />
                       {item.title}
                     </Link>
+                    {item.title === 'Program' && (
+                      <button
+                        className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
+                        onClick={() => {
+                          window.location.href = '/dashboard/enrollment';
+                        }}
+                      >
+                        Enrollment Process
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -66,9 +70,7 @@ const Dashboard = ({ auth }) => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="flex-1 md:ml-64 p-6">
-          {/* Sidebar toggle button */}
           <button
             className="block md:hidden text-gray-800 hover:text-gray-600 focus:outline-none mb-4"
             onClick={toggleSidebar}
@@ -81,18 +83,29 @@ const Dashboard = ({ auth }) => {
             <div className="text-sm text-gray-600">Current Session: 2018-2019</div>
           </div>
 
-          {/* Courses */}
+          <button
+            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-md"
+            onClick={fetchEnrollments}
+          >
+            Fetch Enrollments
+          </button>
+
           <div>
-            <h3 className="text-lg font-semibold mb-2">College Courses</h3>
+            <h3 className="text-lg font-semibold mb-2">Enrollment Forms</h3>
             <ul className="divide-y divide-gray-200">
-              {courses.map((course, index) => (
-                <li key={index} className="py-2">
-                  <div>
-                    <p className="text-lg font-medium text-gray-800">{course.title}</p>
-                    <p className="text-sm text-gray-500">{course.description}</p>
-                  </div>
-                </li>
-              ))}
+              {enrollments.length === 0 ? (
+                <p>No enrollments available. Click "Fetch Enrollments" to load data.</p>
+              ) : (
+                enrollments.map((enrollment, index) => (
+                  <li key={index} className="py-2">
+                    <div>
+                      <p className="text-lg font-medium text-gray-800">Term: {enrollment.term}</p>
+                      <p className="text-sm text-gray-500">Application Type: {enrollment.applicationType}</p>
+                      <p className="text-sm text-gray-500">Academic Program: {enrollment.academicProgram}</p>
+                    </div>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>
