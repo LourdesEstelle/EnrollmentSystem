@@ -7,30 +7,20 @@ const Enrollment = ({ auth }) => {
   const [formData, setFormData] = useState({
     term: '2024-2025 - 1st Semester',
     applicationType: '',
-    year: '',
-    department: '',
-    course: '',
+    academicProgram: '',
   });
-
-  const departmentCourses = {
-    CITC: ['Computer Science', 'Information Technology'],
-    CEA: ['Engineering', 'Architecture'],
-    CON: ['Nursing'],
-    // Add more departments and their courses as needed
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
-      ...(name === 'department' && { course: '' }), // Reset course if department changes
+      [name]: value
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     axios.post('/enroll', formData)
       .then(response => {
         console.log(response.data);
@@ -89,72 +79,26 @@ const Enrollment = ({ auth }) => {
               </select>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Grade / Level </label>
+              <label className="block text-gray-700">First Choice Academic Program</label>
               <select
-                name="year"
-                value={formData.year}
+                name="academicProgram"
+                value={formData.academicProgram}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-              >
-                <option value="">- Please select Year Level -</option>
-                <option value="1st year - Baccalaureate">1st year - Baccalaureate</option>
-                <option value="2nd year - Baccalaureate">2nd year - Baccalaureate</option>
-                <option value="3rd year - Baccalaureate">3rd year - Baccalaureate</option>
-                <option value="4th year - Baccalaureate">4th year - Baccalaureate</option>
-                <option value="5th year - Baccalaureate">5th year - Baccalaureate</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Department</label>
-              <select
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-              >
-                <option value="">- Please select Department -</option>
-                <option value="CITC">CITC</option>
-                <option value="CEA">CEA</option>
-                <option value="CON">CON</option>
-                {/* Add more departments as needed */}
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Course</label>
-              <select
-                name="course"
-                value={formData.course}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-                disabled={!formData.department} // Disable course selection if no department is selected
-              >
-                <option value="">- Please select Course -</option>
-                {formData.department && departmentCourses[formData.department].map((course, index) => (
-                  <option key={index} value={course}>{course}</option>
-                ))}
-              </select>
-            </div>
+                className="block w-full mt-1 border-gray-300 rounded-md">
+             <option value="">None</option>
+              <option value="program1">Program 1</option>
+              <option value="program2">Program 2</option>
+              <option value="program3">Program 3</option>
+            </select>
           </div>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
-          <button
-              className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-              onClick={() => {
-              window.location.href = '/Enrollment/PersonalInfo';}}>
-              Enrollment Process
-          </button>
-          <button
-            type="button" 
-            className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-            onClick={() => {
-              window.history.back();
-            }}
-          >
-            Back
-          </button>
-        </form>
-      </div>
-    </AuthenticatedLayout>
-  );
+        </div>
+        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
+      </form>
+    </div>
+  </AuthenticatedLayout>
+);
 };
 
 export default Enrollment;
+
+               

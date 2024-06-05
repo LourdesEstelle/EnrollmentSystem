@@ -12,9 +12,7 @@ class EnrollmentFormController extends Controller
         $validatedData = $request->validate([
             'term' => 'required|string',
             'applicationType' => 'required|string',
-            'year' => 'required|string',
-            'department' => 'required|string',
-            'course' => 'required|string',
+            'academicProgram' => 'required|string',
         ]);
 
         $enrollment = EnrollmentForm::create($validatedData);

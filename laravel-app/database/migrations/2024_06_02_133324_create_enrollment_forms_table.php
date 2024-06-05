@@ -12,9 +12,7 @@ class CreateEnrollmentFormsTable extends Migration
             $table->id();
             $table->string('term');
             $table->string('applicationType');
-            $table->string('year');
-            $table->string('department');
-            $table->string('course');
+            $table->string('academicProgram');
             $table->timestamps();
         });
     }
