@@ -79,6 +79,20 @@ const PersonalInfo = ({ auth }) => {
                     onChange={handleChange}
                     className="block w-full mt-1 border-gray-300 rounded-md" />
             </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">Gender</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">- Select Gender -</option>
+                <option value="new">Male</option>
+                <option value="transfer">Female</option>
+                <option value="returning">Prefer not to say</option>
+              </select>
+            </div>
           </div>
           <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
           <button

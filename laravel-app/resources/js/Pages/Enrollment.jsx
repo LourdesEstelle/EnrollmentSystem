@@ -60,27 +60,27 @@ const Enrollment = ({ auth }) => {
     >
       <Head title="Enrollment" />
 
-      <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Enrollment Process</h2>
+      <div className="p-6 bg-white shadow-md rounded-lg">
+        <h2 className="text-2xl font-semibold mb-6">Enrollment Process</h2>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="mb-4">
-              <label className="block text-gray-700">Academic Year & Term</label>
+              <label className="block text-gray-700 font-medium mb-1">Academic Year & Term</label>
               <input
                 type="text"
                 name="term"
                 value={formData.term}
                 readOnly
-                className="block w-full mt-1 border-gray-300 rounded-md"
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Application Type</label>
+              <label className="block text-gray-700 font-medium mb-1">Application Type</label>
               <select
                 name="applicationType"
                 value={formData.applicationType}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
               >
                 <option value="">- Please select Application type -</option>
                 <option value="new">New</option>
@@ -89,12 +89,12 @@ const Enrollment = ({ auth }) => {
               </select>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Grade / Level </label>
+              <label className="block text-gray-700 font-medium mb-1">Grade / Level</label>
               <select
                 name="year"
                 value={formData.year}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
               >
                 <option value="">- Please select Year Level -</option>
                 <option value="1st year - Baccalaureate">1st year - Baccalaureate</option>
@@ -105,12 +105,12 @@ const Enrollment = ({ auth }) => {
               </select>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Department</label>
+              <label className="block text-gray-700 font-medium mb-1">Department</label>
               <select
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
               >
                 <option value="">- Please select Department -</option>
                 <option value="CITC">CITC</option>
@@ -120,12 +120,12 @@ const Enrollment = ({ auth }) => {
               </select>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Course</label>
+              <label className="block text-gray-700 font-medium mb-1">Course</label>
               <select
                 name="course"
                 value={formData.course}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
                 disabled={!formData.department} // Disable course selection if no department is selected
               >
                 <option value="">- Please select Course -</option>
@@ -135,22 +135,33 @@ const Enrollment = ({ auth }) => {
               </select>
             </div>
           </div>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
-          <button
-              className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-              onClick={() => {
-              window.location.href = '/Enrollment/PersonalInfo';}}>
-              Enrollment Process
-          </button>
-          <button
-            type="button" 
-            className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-            onClick={() => {
-              window.history.back();
-            }}
-          >
-            Back
-          </button>
+          <div className="flex justify-between items-center mt-6">
+            <button 
+              type="submit" 
+              className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 transition duration-150 ease-in-out"
+            >
+              Submit
+            </button>
+            <div>
+              <button
+                className="ml-4 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 transition duration-150 ease-in-out"
+                onClick={() => {
+                  window.location.href = '/Enrollment/PersonalInfo';
+                }}
+              >
+                Enrollment Process
+              </button>
+              <button
+                type="button"
+                className="ml-4 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 transition duration-150 ease-in-out"
+                onClick={() => {
+                  window.history.back();
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </AuthenticatedLayout>

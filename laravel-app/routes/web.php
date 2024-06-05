@@ -52,5 +52,6 @@ use App\Http\Controllers\PersonalInfoController;
 
 Route::post('/personal-info', [PersonalInfoController::class, 'store']);
 
+Route::get('/dashboard/department', [DepartmentController::class, 'index'])->name('dashboard.department');
 
 require __DIR__.'/auth.php';

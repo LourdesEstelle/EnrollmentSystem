@@ -12,6 +12,7 @@ class PersonalInfoForm extends Model
     protected $fillable = [
         'Fname',
         'Lname',
-        'dateOfBirth'
+        'dateOfBirth',
+        'gender'
     ];
 }

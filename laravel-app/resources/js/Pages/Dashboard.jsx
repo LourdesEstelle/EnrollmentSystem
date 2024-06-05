@@ -30,9 +30,10 @@ const Dashboard = ({ auth }) => {
   }, []);
 
   const items = [
-    { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/courses' },
-    { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', link: '/dashboard/enrollment' },
+    { icon: faGraduationCap, title: 'Department', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/courses' },
     { icon: faBuildingColumns, title: 'Program', description: 'Efficiently manage your educational programs and curriculum.', link: '/dashboard/program' },
+    { icon: faFile, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', link: '/dashboard/enrollment' },
+    
   ];
 
   return (

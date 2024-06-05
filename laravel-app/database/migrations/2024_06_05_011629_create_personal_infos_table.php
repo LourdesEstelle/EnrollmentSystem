@@ -18,6 +18,7 @@ class CreatePersonalInfosTable extends Migration
             $table->string('Fname');
             $table->string('Lname');
             $table->date('dateOfBirth');
+            $table->string('gender');
             // Add more fields as necessary
             $table->timestamps();
         });
