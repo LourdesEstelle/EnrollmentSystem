@@ -17,7 +17,6 @@ class PersonalInfo extends Model
         'Fname',
         'Lname',
         'dateOfBirth',
-        'gender',
         // Add other fields if necessary
     ];
 }
