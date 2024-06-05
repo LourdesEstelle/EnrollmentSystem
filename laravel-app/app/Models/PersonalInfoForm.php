@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EnrollmentForm extends Model
+class PersonalInfoForm extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'term',
-        'applicationType',
-        'year',
-        'department',
-        'course'
+        'Fname',
+        'Lname',
+        'dateOfBirth'
     ];
 }

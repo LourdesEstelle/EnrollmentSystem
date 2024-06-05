@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap, faFile, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@inertiajs/inertia-react';
@@ -23,6 +23,11 @@ const Dashboard = ({ auth }) => {
       console.error('Error fetching enrollments:', error);
     }
   };
+
+  // Fetch enrollments on component mount
+  useEffect(() => {
+    fetchEnrollments();
+  }, []);
 
   const items = [
     { icon: faGraduationCap, title: 'Courses', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/courses' },
@@ -83,13 +88,6 @@ const Dashboard = ({ auth }) => {
             <div className="text-sm text-gray-600">Current Session: 2018-2019</div>
           </div>
 
-          <button
-            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-md"
-            onClick={fetchEnrollments}
-          >
-            Fetch Enrollments
-          </button>
-
           <div>
             <h3 className="text-lg font-semibold mb-2">Enrollment Forms</h3>
             <ul className="divide-y divide-gray-200">
@@ -101,7 +99,9 @@ const Dashboard = ({ auth }) => {
                     <div>
                       <p className="text-lg font-medium text-gray-800">Term: {enrollment.term}</p>
                       <p className="text-sm text-gray-500">Application Type: {enrollment.applicationType}</p>
-                      <p className="text-sm text-gray-500">Academic Program: {enrollment.academicProgram}</p>
+                      <p className="text-sm text-gray-500">Academic Program: {enrollment.course}</p>
+                      <p className="text-sm text-gray-500">Academic Program: {enrollment.department}</p>
+                      <p className="text-sm text-gray-500">Academic Program: {enrollment.year}</p>
                     </div>
                   </li>
                 ))
