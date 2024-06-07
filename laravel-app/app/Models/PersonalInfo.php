@@ -17,6 +17,16 @@ class PersonalInfo extends Model
         'Fname',
         'Lname',
         'dateOfBirth',
+        'nationality',
+        'civilstatus',
+        'gender',
+        'address',
+        'province',
+        'region',
+        'barangay',
+        'religion',
+        'mobileno',
+        'email',
         // Add other fields if necessary
     ];
 }

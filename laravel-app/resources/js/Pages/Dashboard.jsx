@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faFile, faBuildingColumns, faDollarSign, faChevronDown, faChevronRight, faSitemap, faChartLine  } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faFile, faBuildingColumns, faDollarSign, faChevronDown, faChevronRight, faSitemap, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
@@ -11,6 +11,7 @@ const Dashboard = ({ auth }) => {
   const [activeItem, setActiveItem] = useState(null);
   const [dropdownState, setDropdownState] = useState({});
   const [enrollments, setEnrollments] = useState([]);
+  const [editEnrollment, setEditEnrollment] = useState(null);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -36,9 +37,50 @@ const Dashboard = ({ auth }) => {
     }));
   };
 
+  const navigateToEnrollment = () => {
+    window.location.href = '/dashboard/enrollment';
+  };
+
+  const handleEditClick = (enrollment) => {
+    setEditEnrollment(enrollment);
+  };
+
+  const handleUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setEditEnrollment({
+      ...editEnrollment,
+      [name]: value,
+    });
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.put(`/api/enrollment-forms/${editEnrollment.id}`, editEnrollment);
+      alert('Enrollment data updated successfully');
+      fetchEnrollments();
+      setEditEnrollment(null);
+    } catch (error) {
+      console.error('Error updating enrollment data:', error);
+      alert('There was an error updating the enrollment data');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/api/enrollment-forms/${id}`);
+      alert('Enrollment data deleted successfully');
+      fetchEnrollments();
+    } catch (error) {
+      console.error('Error deleting enrollment data:', error);
+      alert('There was an error deleting the enrollment data');
+    }
+  };
+
   const items = [
     { icon: faGraduationCap, title: 'Statistics', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/statistics' },
-    { icon: faChartLine, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', link: '/dashboard/enrollment' },
+    { icon: faChartLine, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', onClick: navigateToEnrollment },
     { icon: faBuildingColumns, title: 'Courses', description: 'Efficiently manage your educational programs and curriculum.', link: '/dashboard/courses' },
     { icon: faSitemap , title: 'Department', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/department' },
     {
@@ -67,6 +109,13 @@ const Dashboard = ({ auth }) => {
             <h2 className="text-2xl font-semibold mb-4">Navigation</h2>
             <nav>
               <ul>
+                <button
+                  className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200 hidden"
+                  onClick={navigateToEnrollment}
+                >
+                  Enrollment Process
+                </button>
+                
                 {items.map((item, index) => (
                   <li key={index} className="mb-2">
                     <button
@@ -75,6 +124,8 @@ const Dashboard = ({ auth }) => {
                         setActiveItem(item.title);
                         if (item.isDropdown) {
                           toggleDropdown(item.title);
+                        } else if (item.onClick) {
+                          item.onClick();
                         }
                       }}
                     >
@@ -133,14 +184,92 @@ const Dashboard = ({ auth }) => {
                       <p className="text-lg font-medium text-gray-800">Term: {enrollment.term}</p>
                       <p className="text-sm text-gray-500">Application Type: {enrollment.applicationType}</p>
                       <p className="text-sm text-gray-500">Academic Program: {enrollment.course}</p>
-                      <p className="text-sm text-gray-500">Academic Program: {enrollment.department}</p>
-                      <p className="text-sm text-gray-500">Academic Program: {enrollment.year}</p>
+                      <p className="text-sm text-gray-500">Department: {enrollment.department}</p>
+                      <p className="text-sm text-gray-500">Year: {enrollment.year}</p>
+                      <button
+                        className="text-blue-500 hover:underline"
+                        onClick={() => handleEditClick(enrollment)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="text-red-500 hover:underline ml-4"
+                        onClick={() => handleDelete(enrollment.id)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </li>
                 ))
               )}
             </ul>
           </div>
+
+          {editEnrollment && (
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-2">Edit Enrollment Form</h3>
+              <form onSubmit={handleUpdateSubmit}>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Academic Year & Term</label>
+                  <input
+                    type="text"
+                    name="term"
+                    value={editEnrollment.term}
+                    onChange={handleUpdateChange}
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Application Type</label>
+                  <input
+                    type="text"
+                    name="applicationType"
+                    value={editEnrollment.applicationType}
+                    onChange={handleUpdateChange}
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">First Choice Academic Program</label>
+                  <input
+                    type="text"
+                    name="course"
+                    value={editEnrollment.course}
+                    onChange={handleUpdateChange}
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Department</label>
+                  <input
+                    type="text"
+                    name="department"
+                    value={editEnrollment.department}
+                    onChange={handleUpdateChange}
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Year</label>
+                  <input
+                    type="text"
+                    name="year"
+                    value={editEnrollment.year}
+                    onChange={handleUpdateChange}
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Update</button>
+                <button
+                  type="button"
+                  className="ml-4 px-4 py-2 bg-gray-500 text-white rounded-md"
+                  onClick={() => setEditEnrollment(null)}
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </AuthenticatedLayout>

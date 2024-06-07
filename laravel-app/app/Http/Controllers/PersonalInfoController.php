@@ -13,6 +13,16 @@ class PersonalInfoController extends Controller
             'Fname' => 'required|string',
             'Lname' => 'required|string',
             'dateOfBirth' => 'required|date',
+            'nationality' => 'required|string',
+            'civilstatus' => 'required|string',
+            'gender' => 'required|string',
+            'address' => 'required|string',
+            'province' => 'required|string',
+            'region' => 'required|string',
+            'barangay' => 'required|string',
+            'religion' => 'required|string',
+            'mobileno' => 'required|string',
+            'email' => 'required|string',
         ]);
 
         $personalinfo = PersonalInfo::create($validatedData);

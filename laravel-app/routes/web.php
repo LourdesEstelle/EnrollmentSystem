@@ -86,4 +86,22 @@ Route::post('/personal-info', [PersonalInfoController::class, 'store']);
 
 Route::get('/personal_view', [PersonalInfoController::class, 'index']);
 
+
+// UY SI HEV ABIIIII 
+
+
+Route::get('/Enrollment/PersonalInfo', [PersonalInfoFormController::class, 'index'])->name('PersonalInfo.index');
+Route::post('/personal-info', [PersonalInfoController::class, 'store']);
+
+
+Route::post('/enroll', [EnrollmentFormController::class, 'store']);
+Route::get('/api/enrollments', [EnrollmentFormController::class, 'index']);
+Route::put('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'update']);
+Route::delete('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'destroy']);
+
+
+
+
+
+
 require __DIR__.'/auth.php';

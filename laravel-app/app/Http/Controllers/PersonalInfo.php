@@ -10,7 +10,7 @@ class PersonalInfo extends Controller
     {
         // You can pass data to the view if needed
         return inertia('PersonalInfo', [
-            'data' => 'This is Pers pageeeeeeeeeeeeeeee',
+            'data' => 'This is the enrollment pageeeeeeeeeeeeeeee',
         ]);
     }
 }
