@@ -30,9 +30,9 @@ Route::get('/', function () {
 });
 
 // Define the route for the statistics page
-Route::get('/dashboard/statistics', [StatisticsController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('statistics');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/statistics', [StatisticsController::class, 'index'])->name('statistics');
+});
 // Define the route for the Department page
 Route::get('/dashboard/department', [DepartmentController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -98,6 +98,9 @@ Route::post('/enroll', [EnrollmentFormController::class, 'store']);
 Route::get('/api/enrollments', [EnrollmentFormController::class, 'index']);
 Route::put('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'update']);
 Route::delete('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'destroy']);
+
+// rou
+
 
 
 
