@@ -1,160 +1,157 @@
-import React, { useState } from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import axios from 'axios';
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserGraduate, faUserPlus, faUserCheck } from '@fortawesome/free-solid-svg-icons';
 
-const Courses = ({ auth }) => {
-  const [formData, setFormData] = useState({
-    term: '2024-2025 - 1st Semester',
-    applicationType: '',
-    year: '',
-    department: '',
-    course: '',
-  });
-
-  const departmentCourses = {
-    CITC: ['Computer Science', 'Information Technology'],
-    CEA: ['Engineering', 'Architecture'],
-    CON: ['Nursing'],
-    // Add more departments and their courses as needed
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-      ...(name === 'department' && { course: '' }), // Reset course if department changes
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    axios.post('/enroll', formData)
-      .then(response => {
-        console.log(response.data);
-        alert('Enrollment data saved successfully');
-      })
-      .catch(error => {
-        if (error.response) {
-          console.error('Error response:', error.response);
-          const errorMessages = error.response.data.errors 
-            ? Object.values(error.response.data.errors).flat().join(', ') 
-            : 'There was an error with the submission';
-          alert('There was an error saving the enrollment data: ' + errorMessages);
-        } else if (error.request) {
-          console.error('Error request:', error.request);
-          alert('No response received from the server');
-        } else {
-          console.error('Error message:', error.message);
-          alert('Error in request setup: ' + error.message);
-        }
-      });
-  };
-
-  return (
-    <AuthenticatedLayout
-      user={auth.user}
-      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Enrollment Page</h2>}
-    >
-      <Head title="Enrollment" />
-
-      <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Enrollment Process</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="mb-4">
-              <label className="block text-gray-700">Academic Year & Term</label>
-              <input
-                type="text"
-                name="term"
-                value={formData.term}
-                readOnly
-                className="block w-full mt-1 border-gray-300 rounded-md"
-              />
+const Statistics = () => {
+    return (
+        <div className="statistics-container p-6">
+            <h1 className="text-3xl font-bold mb-6">Enrollment Statistics</h1>
+            <p className="mb-6">Welcome to the Enrollment Statistics page. Here you can explore various statistics related to student enrollments and registrations.</p>
+            
+            {/* Statistic Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faUserGraduate} className="text-3xl text-yellow-500 mr-4" />
+                        <div>
+                            <h2 className="text-xl font-bold">1500</h2>
+                            <p className="text-gray-600">Total Enrollments</p>
+                        </div>
+                    </div>
+                    <p className="text-green-500 mt-4">↑ 10% this month</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faUserPlus} className="text-3xl text-pink-500 mr-4" />
+                        <div>
+                            <h2 className="text-xl font-bold">300</h2>
+                            <p className="text-gray-600">New Enrollments</p>
+                        </div>
+                    </div>
+                    <p className="text-green-500 mt-4">↑ 5% this month</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faUserCheck} className="text-3xl text-blue-500 mr-4" />
+                        <div>
+                            <h2 className="text-xl font-bold">1200</h2>
+                            <p className="text-gray-600">Confirmed Enrollments</p>
+                        </div>
+                    </div>
+                    <p className="text-green-500 mt-4">↑ 8% this month</p>
+                </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Application Type</label>
-              <select
-                name="applicationType"
-                value={formData.applicationType}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-              >
-                <option value="">- Please select Application type -</option>
-                <option value="new">New</option>
-                <option value="transfer">Transfer</option>
-                <option value="returning">Returning</option>
-              </select>
+
+            {/* View Complete Report Button */}
+            <div className="text-center mb-6">
+                <button className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+                    View Complete Report
+                </button>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Grade / Level </label>
-              <select
-                name="year"
-                value={formData.year}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-              >
-                <option value="">- Please select Year Level -</option>
-                <option value="1st year - Baccalaureate">1st year - Baccalaureate</option>
-                <option value="2nd year - Baccalaureate">2nd year - Baccalaureate</option>
-                <option value="3rd year - Baccalaureate">3rd year - Baccalaureate</option>
-                <option value="4th year - Baccalaureate">4th year - Baccalaureate</option>
-                <option value="5th year - Baccalaureate">5th year - Baccalaureate</option>
-              </select>
+
+            {/* Dynamic Tables */}
+            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 className="text-2xl font-bold mb-4">Enrollment Details</h2>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 border">#</th>
+                                <th className="px-4 py-2 border">Student Name</th>
+                                <th className="px-4 py-2 border">Course</th>
+                                <th className="px-4 py-2 border">Status</th>
+                                <th className="px-4 py-2 border">Date Enrolled</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="px-4 py-2 border">1</td>
+                                <td className="px-4 py-2 border">John Doe</td>
+                                <td className="px-4 py-2 border">Computer Science</td>
+                                <td className="px-4 py-2 border">Confirmed</td>
+                                <td className="px-4 py-2 border">2024-01-01</td>
+                            </tr>
+                            <tr>
+                                <td className="px-4 py-2 border">2</td>
+                                <td className="px-4 py-2 border">Jane Smith</td>
+                                <td className="px-4 py-2 border">Business Administration</td>
+                                <td className="px-4 py-2 border">Pending</td>
+                                <td className="px-4 py-2 border">2024-01-02</td>
+                            </tr>
+                            <tr>
+                                <td className="px-4 py-2 border">3</td>
+                                <td className="px-4 py-2 border">Michael Brown</td>
+                                <td className="px-4 py-2 border">Mechanical Engineering</td>
+                                <td className="px-4 py-2 border">Confirmed</td>
+                                <td className="px-4 py-2 border">2024-01-03</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                    <div>
+                        <button className="bg-gray-300 text-gray-700 py-1 px-3 rounded shadow hover:bg-gray-400 transition duration-300">Previous</button>
+                        <button className="bg-gray-300 text-gray-700 py-1 px-3 rounded shadow hover:bg-gray-400 transition duration-300 ml-2">Next</button>
+                    </div>
+                    <span className="text-gray-600">Items per page</span>
+                </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Department</label>
-              <select
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-              >
-                <option value="">- Please select Department -</option>
-                <option value="CITC">CITC</option>
-                <option value="CEA">CEA</option>
-                <option value="CON">CON</option>
-                {/* Add more departments as needed */}
-              </select>
+
+            {/* Timeline Example */}
+            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 className="text-2xl font-bold mb-4">Recent Enrollment Events</h2>
+                <ul className="timeline">
+                    <li className="timeline-item">
+                        <div className="timeline-time">10:00 AM</div>
+                        <div className="timeline-content bg-gray-100 p-2 rounded-lg shadow">
+                            <h3 className="text-lg font-semibold">John Doe enrolled in Computer Science</h3>
+                        </div>
+                    </li>
+                    <li className="timeline-item">
+                        <div className="timeline-time">11:00 AM</div>
+                        <div className="timeline-content bg-gray-100 p-2 rounded-lg shadow">
+                            <h3 className="text-lg font-semibold">Jane Smith's enrollment is pending</h3>
+                        </div>
+                    </li>
+                    <li className="timeline-item">
+                        <div className="timeline-time">12:00 PM</div>
+                        <div className="timeline-content bg-gray-100 p-2 rounded-lg shadow">
+                            <h3 className="text-lg font-semibold">Michael Brown confirmed enrollment in Mechanical Engineering</h3>
+                        </div>
+                    </li>
+                </ul>
+                <div className="text-center mt-4">
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+                        View All Events
+                    </button>
+                </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Course</label>
-              <select
-                name="course"
-                value={formData.course}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md"
-                disabled={!formData.department} // Disable course selection if no department is selected
-              >
-                <option value="">- Please select Course -</option>
-                {formData.department && departmentCourses[formData.department].map((course, index) => (
-                  <option key={index} value={course}>{course}</option>
-                ))}
-              </select>
+
+            {/* Tasks List */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+                <h2 className="text-2xl font-bold mb-4">Enrollment Tasks List</h2>
+                <ul className="task-list">
+                    <li className="task-item flex items-center justify-between mb-2">
+                        <span className="task-text">Verify pending enrollments</span>
+                        <span className="task-status text-yellow-500">IN PROGRESS</span>
+                    </li>
+                    <li className="task-item flex items-center justify-between mb-2">
+                        <span className="task-text">Send confirmation emails</span>
+                        <span className="task-status text-green-500">COMPLETED</span>
+                    </li>
+                    <li className="task-item flex items-center justify-between mb-2">
+                        <span className="task-text">Update enrollment records</span>
+                        <span className="task-status text-red-500">PENDING</span>
+                    </li>
+                </ul>
+                <div className="text-right mt-4">
+    <a href={route('dashboard')} className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300 inline-block">
+        Back
+    </a>
+</div>
             </div>
-          </div>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
-          <button
-              className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-              onClick={() => {
-              window.location.href = '/Enrollment/PersonalInfo';}}>
-              Enrollment Process
-          </button>
-          <button
-            type="button" 
-            className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-            onClick={() => {
-              window.history.back();
-            }}
-          >
-            Back
-          </button>
-        </form>
-      </div>
-    </AuthenticatedLayout>
-  );
+        </div>
+    );
 };
 
-export default Courses;
+export default Statistics;

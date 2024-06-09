@@ -133,7 +133,7 @@ const Dashboard = ({ auth }) => {
                   className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200 "
                   onClick={navigateToCourses}
                 >
-                  Enrollment Process3
+                  Process
                 </button>
                 
                 {items.map((item, index) => (
