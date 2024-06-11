@@ -12,6 +12,8 @@ class EnrollmentForm extends Model
     protected $fillable = [
         'term',
         'applicationType',
-        'academicProgram'
+        'year',
+        'department',
+        'course'
     ];
 }

@@ -2,10 +2,22 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
-use App\Http\Controllers\StudentsController; // Added StudentsController
+use App\Http\Controllers\StudentsController; 
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\EnrollmentFormController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\PayController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\PersonalInfoFormController;
+use App\Http\Controllers\PersonalInfoController;
+use App\Models\Courses;
+use App\Models\Payment;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\StudentController;
 
 // Define the route for the welcome page
 Route::get('/', function () {
@@ -18,17 +30,17 @@ Route::get('/', function () {
 });
 
 // Define the route for the statistics page
-Route::get('/dashboard/statistics', [StatisticsController::class, 'index'])
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/statistics', [StatisticsController::class, 'index'])->name('statistics');
+});
+// Define the route for the Department page
+Route::get('/dashboard/department', [DepartmentController::class, 'index'])
     ->middleware(['auth', 'verified'])
-    ->name('statistics');
+    ->name('department');
 
 // Define the route for the students page
-Route::get('/dashboard/students', [StudentsController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('students');
-
-
-
+Route::get('/dashboard/students_view', [StudentsController::class, 'index'])->name('students_view');
+Route::get('/dashboard/students_profile', [StudentsController::class, 'index'])->name('students_profile');
 
 
 // Define the route for the users page
@@ -48,19 +60,51 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-use App\Http\Controllers\EnrollmentController;
+// Define the route for retrieving payment
 
+
+// Define the route for the enrollment page
 Route::get('/dashboard/enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
 
-use App\Http\Controllers\EnrollmentFormController;
-
+// Define the route for the enrollment form submission
 Route::post('/enroll', [EnrollmentFormController::class, 'store']);
 
-use App\Http\Controllers\CourseController;
+// Define the route for retrieving courses
+Route::get('/dashboard/courses', [CourseController::class, 'index']);
 
-Route::get('/api/courses', [CourseController::class, 'index']);
+Route::get('/dashboard/payment', [PaymentController::class, 'index']);
 
 
+// Define the route for retrieving enrollments
+Route::get('/enrollments', [EnrollmentFormController::class, 'index']);
+
+// Define the route for the personal info form
+Route::get('/Enrollment/PersonalInfo', [PersonalInfoFormController::class, 'index'])->name('PersonalInfo.index');
+
+// Define the route for storing personal info
+Route::post('/personal-info', [PersonalInfoController::class, 'store']);
+
+Route::get('/personal_view', [PersonalInfoController::class, 'index']);
+
+
+// UY SI HEV ABIIIII 
+
+
+Route::get('/Enrollment/PersonalInfo', [PersonalInfoFormController::class, 'index'])->name('PersonalInfo.index');
+Route::post('/personal-info', [PersonalInfoController::class, 'store']);
+
+
+Route::post('/enroll', [EnrollmentFormController::class, 'store']);
 Route::get('/api/enrollments', [EnrollmentFormController::class, 'index']);
+Route::put('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'update']);
+Route::delete('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'destroy']);
+
+// rou
+
+
+
+
+
+
 
 require __DIR__.'/auth.php';
