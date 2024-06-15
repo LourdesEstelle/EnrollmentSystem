@@ -7,41 +7,41 @@ const InvoiceDetails = ({ auth }) => {
     <AuthenticatedLayout user={auth.user}>
       <Head title="Invoice Details" />
       <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Invoice Details</h2>
+        <h2 className="text-xl font-semibold mb-4">Payment List</h2>
         <div className="border p-4">
           <div className="flex justify-between mb-6">
             <div>
-              <h3 className="font-bold">Your details:</h3>
-              <p>From</p>
-              <p>Design & Creative Agency</p>
-              <p>ABC Seller</p>
-              <p>Design & Creative Agency</p>
-              <p>Location Pakistan</p>
-              <p>design@creative-agency-email.com</p>
+              <h3 className="font-bold">Term:</h3>
+              <p>Application Type:</p>
+              <p>Academic Program: </p>
+              <p>Department:</p>
+              <p>Year:</p>
+        
+
+
             </div>
             <div>
               <h3 className="font-bold">Client's details:</h3>
-              <p>To</p>
-              <p>ABC Company</p>
-              <p>XYZ Seller</p>
-              <p>Client Location</p>
-              <p>Street, City</p>
-              <p>United States of America</p>
-              <p>client@client-email.com</p>
+              <p>enrollment -term</p>
+              <p>emrollment - applicationType</p>
+              <p>chuchu</p>
+              <p>chuchu</p>
+              <p>chuhu</p>
+             
             </div>
           </div>
           <div className="mb-6">
-            <p><strong>Invoice No:</strong> 012345</p>
-            <p><strong>Invoice Date:</strong> Dec 8th, 2021</p>
+            <p><strong>Payment No:</strong> 012345</p>
+            <p><strong>Payment Date:</strong> Dec 8th, 2021</p>
             <p><strong>Due Date:</strong> Dec 31st, 2021</p>
           </div>
           <table className="w-full text-left border-collapse">
             <thead>
               <tr>
-                <th className="border p-2">Item</th>
-                <th className="border p-2">HRS/QTY</th>
-                <th className="border p-2">Rate</th>
-                <th className="border p-2">Subtotal</th>
+                <th className="border p-2">Subject</th>
+                <th className="border p-2">Units</th>
+                <th className="border p-2">Laboratory</th>
+                <th className="border p-2">Remarks</th>
               </tr>
             </thead>
             <tbody>
