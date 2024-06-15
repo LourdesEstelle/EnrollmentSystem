@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollarSign, faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faFile, faBuildingColumns, faDollarSign, faChevronDown, faChevronRight, faSitemap, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import axios from 'axios';
 
 const Dashboard = ({ auth }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -85,6 +84,7 @@ const Dashboard = ({ auth }) => {
       alert('There was an error deleting the enrollment data');
     }
   };
+  
 
   const items = [
     { icon: faGraduationCap, title: 'Statistics', description: 'Explore our available courses and enhance your skills.', onClick: navigateToStatistics },
@@ -98,12 +98,7 @@ const Dashboard = ({ auth }) => {
       ]
     },
     {
-      icon: faDollarSign,
-      title: 'Payment',
-      description: 'Manage payments and financial transactions.',
-      isDropdown: true,
-      isOpen: dropdownState['Payment'],
-      subItems: [
+      icon: faDollarSign, title: 'Payment', description: 'Manage payments and financial transactions.', isDropdown: true, isOpen: dropdownState['Payment'], subItems: [
         { title: 'Payment List', link: '/dashboard/payment/list' },
         { title: 'Payment Summary', link: '/dashboard/payment/summary' },
       ]

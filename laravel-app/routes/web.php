@@ -99,7 +99,12 @@ Route::get('/api/enrollments', [EnrollmentFormController::class, 'index']);
 Route::put('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'update']);
 Route::delete('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'destroy']);
 
-// rou
+//Testing for Payment/List
+Route::get('/dashboard/payment/list', [PaymentController::class, 'paymentList']);
+Route::get('/dashboard/payment/summary', [PaymentController::class, 'paymentSummary']);
+
+
+
 
 
 
