@@ -2,64 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
-use App\Models\EnrollmentForm;
-use Illuminate\Support\Facades\Log;
 
 class EnrollmentFormController extends Controller
 {
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        // Validation
+        $request->validate([
             'term' => 'required|string',
-            'applicationType' => 'required|string',
-            'course' => 'required|string',
-            'department' => 'required|string',
+            'application_type' => 'required|string',
             'year' => 'required|string',
+            'department' => 'required|string',
+            'course' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'date_of_birth' => 'required|date',
+            'nationality' => 'required|string',
+            'civil_status' => 'required|string',
+            'gender' => 'required|string',
+            'address' => 'required|string',
+            'province' => 'required|string',
+            'region' => 'required|string',
+            'barangay' => 'required|string',
+            'religion' => 'required|string',
+            'mobile_number' => 'required|string',
+            'email' => 'required|string|email',
         ]);
 
-        $enrollment = EnrollmentForm::create($validatedData);
-
-        return response()->json(['message' => 'Enrollment data saved successfully', 'data' => $enrollment]);
-    }
-
-    public function index()
-    {
-        $enrollments = EnrollmentForm::all();
-        return response()->json($enrollments);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'term' => 'required|string',
-            'applicationType' => 'required|string',
-            'course' => 'required|string',
-            'department' => 'required|string',
-            'year' => 'required|string',
+        // Create Enrollment
+        Enrollment::create([
+            'term' => $request->term,
+            'application_type' => $request->application_type,
+            'year' => $request->year,
+            'department' => $request->department,
+            'course' => $request->course,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'date_of_birth' => $request->date_of_birth,
+            'nationality' => $request->nationality,
+            'civil_status' => $request->civil_status,
+            'gender' => $request->gender,
+            'address' => $request->address,
+            'province' => $request->province,
+            'region' => $request->region,
+            'barangay' => $request->barangay,
+            'religion' => $request->religion,
+            'mobile_number' => $request->mobile_number,
+            'email' => $request->email,
         ]);
 
-        try {
-            $enrollment = EnrollmentForm::findOrFail($id);
-            $enrollment->update($validatedData);
-
-            return response()->json(['message' => 'Enrollment data updated successfully', 'data' => $enrollment]);
-        } catch (\Exception $e) {
-            Log::error('Error updating enrollment: ' . $e->getMessage());
-            return response()->json(['message' => 'Error updating enrollment data'], 500);
-        }
-    }
-
-    public function destroy($id)
-    {
-        try {
-            $enrollment = EnrollmentForm::findOrFail($id);
-            $enrollment->delete();
-
-            return response()->json(['message' => 'Enrollment data deleted successfully']);
-        } catch (\Exception $e) {
-            Log::error('Error deleting enrollment: ' . $e->getMessage());
-            return response()->json(['message' => 'Error deleting enrollment data'], 500);
-        }
+        return response()->json(['message' => 'Enrollment successfully saved']);
     }
 }

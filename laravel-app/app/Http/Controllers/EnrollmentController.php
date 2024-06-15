@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EnrollmentController extends Controller
 {
     public function index()
     {
-        // You can pass data to the view if needed
-        return inertia('Enrollment', [
-            'data' => 'This is the enrollment page',
+        return Inertia::render('Enrollment', [
+            'auth' => auth()->user(),
         ]);
     }
 }

@@ -41,6 +41,14 @@ const Dashboard = ({ auth }) => {
     window.location.href = '/dashboard/enrollment';
   };
 
+  const navigateToStatistics = () => {
+    window.location.href = '/dashboard/statistics';
+  };
+
+  const navigateToCourses = () => {
+    window.location.href = '/dashboard/courses';
+  };
+
   const handleEditClick = (enrollment) => {
     setEditEnrollment(enrollment);
   };
@@ -79,9 +87,9 @@ const Dashboard = ({ auth }) => {
   };
 
   const items = [
-    { icon: faGraduationCap, title: 'Statistics', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/statistics' },
+    { icon: faGraduationCap, title: 'Statistics', description: 'Explore our available courses and enhance your skills.', onClick: navigateToStatistics },
     { icon: faChartLine, title: 'Enrollment', description: 'Manage student enrollments and registrations effortlessly.', onClick: navigateToEnrollment },
-    { icon: faBuildingColumns, title: 'Courses', description: 'Efficiently manage your educational programs and curriculum.', link: '/dashboard/courses' },
+    { icon: faBuildingColumns, title: 'Courses', description: 'Efficiently manage your educational programs and curriculum.', onClick: navigateToCourses  },
     { icon: faSitemap , title: 'Department', description: 'Explore our available courses and enhance your skills.', link: '/dashboard/department' },
     {
       icon: faGraduationCap, title: 'Students', description: 'Manage student information and profiles.', isDropdown: true, isOpen: dropdownState['Students'], subItems: [
@@ -114,6 +122,18 @@ const Dashboard = ({ auth }) => {
                   onClick={navigateToEnrollment}
                 >
                   Enrollment Process
+                </button>
+                <button
+                  className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200 hidden "
+                  onClick={navigateToStatistics}
+                >
+                  Enrollment Process2
+                </button>
+                <button
+                  className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200 "
+                  onClick={navigateToCourses}
+                >
+                  Process
                 </button>
                 
                 {items.map((item, index) => (

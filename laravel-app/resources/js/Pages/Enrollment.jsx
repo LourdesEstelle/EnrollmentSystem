@@ -3,14 +3,27 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
 
-const Enrollment = ({ auth }) => {
+const Enrollment= ({ auth }) => {
   const [formData, setFormData] = useState({
     term: '2024-2025 - 1st Semester',
-    applicationType: '',
+    application_type: '',
     year: '',
     department: '',
     course: '',
-  });
+    first_name: '',
+    last_name: '',
+    date_of_birth: '',
+    nationality: '',
+    civil_status: '',
+    gender: '',
+    address: '',
+    province: '',
+    region: '',
+    barangay: '',
+    religion: '',
+    mobile_number: '',
+    email: '',    
+});
 
   const departmentCourses = {
     CITC: ['Computer Science', 'Information Technology'],
@@ -34,7 +47,7 @@ const Enrollment = ({ auth }) => {
     axios.post('/enroll', formData)
       .then(response => {
         console.log(response.data);
-        alert('Enrollment data saved successfully');
+        alert('Data saved successfully');
       })
       .catch(error => {
         if (error.response) {
@@ -42,7 +55,7 @@ const Enrollment = ({ auth }) => {
           const errorMessages = error.response.data.errors 
             ? Object.values(error.response.data.errors).flat().join(', ') 
             : 'There was an error with the submission';
-          alert('There was an error saving the enrollment data: ' + errorMessages);
+          alert('There was an error saving the data: ' + errorMessages);
         } else if (error.request) {
           console.error('Error request:', error.request);
           alert('No response received from the server');
@@ -56,9 +69,9 @@ const Enrollment = ({ auth }) => {
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Enrollment Page</h2>}
+      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Kindly fill out the following information</h2>}
     >
-      <Head title="Enrollment" />
+      <Head title="Enrollment and Personal Info" />
 
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4">Enrollment Process</h2>
@@ -75,10 +88,10 @@ const Enrollment = ({ auth }) => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Application Type</label>
+            <label className="block text-gray-700">Application Type</label>
               <select
-                name="applicationType"
-                value={formData.applicationType}
+                name="application_type"
+                value={formData.application_type}
                 onChange={handleChange}
                 className="block w-full mt-1 border-gray-300 rounded-md"
               >
@@ -135,15 +148,154 @@ const Enrollment = ({ auth }) => {
               </select>
             </div>
           </div>
+
+          <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mb-4">
+              <label className="block text-gray-700">First Name</label>
+              <input
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Last Name</label>
+              <input
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Date of Birth</label>
+              <input
+                type="date"
+                name="date_of_birth"
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Nationality</label>
+              <input
+                name="nationality"
+                value={formData.nationality}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Civil Status</label>
+              <select
+                name="civil_status"
+                value={formData.civil_status}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              >
+                <option value="">- Please select Civil Status -</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Separated">Separated</option>
+                <option value="Widow">Widow</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Gender</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              >
+                <option value="">- Please select Gender -</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Halata">Halata</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <h2 className="text-xl font-semibold mb-4">Address</h2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1">
+            <div className="mb-4">
+              <label className="block text-gray-700">House No, Street Address</label>
+              <input
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mb-4">
+              <label className="block text-gray-700">Province</label>
+              <input
+                name="province"
+                value={formData.province}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Region</label>
+              <input
+                name="region"
+                value={formData.region}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Barangay</label>
+              <input
+                name="barangay"
+                value={formData.barangay}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+
+          <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mb-4">
+              <label className="block text-gray-700">Religion</label>
+              <input
+                name="religion"
+                value={formData.religion}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Mobile Number</label>
+              <input
+                name="mobile_number"
+                value={formData.mobile_number}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Email</label>
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+
           <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
           <button
-              className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
-              onClick={() => {
-              window.location.href = '/Enrollment/PersonalInfo';}}>
-              Enrollment Process
-          </button>
-          <button
-            type="button" 
+            type="button"
             className="mt-2 ml-8 text-sm text-gray-800 bg-white py-1 px-3 rounded hover:bg-gray-200"
             onClick={() => {
               window.history.back();
