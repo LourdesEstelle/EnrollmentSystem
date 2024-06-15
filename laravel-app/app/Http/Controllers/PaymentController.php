@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function index()
+    public function paymentList()
     {
-        return Inertia::render('Students', [
-            'auth' => auth()->user(),
-        ]);
+        return inertia('Payment/List'); // Assuming you have a blade file named payment/list.blade.php
     }
-}    
 
+    public function paymentSummary()
+    {
+        return inertia('Payment/Summary'); // Assuming you have a blade file named payment/summary.blade.php
+    }
+}
