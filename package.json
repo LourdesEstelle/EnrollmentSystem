@@ -2,6 +2,7 @@
   "dependencies": {
     "@inertiajs/inertia-react": "^0.8.1",
     "react-slick": "^0.30.2",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "ziggy-js": "^2.2.1"
   }
 }

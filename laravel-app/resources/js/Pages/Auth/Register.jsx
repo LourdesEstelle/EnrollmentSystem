@@ -30,6 +30,10 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
+            <div className="flex justify-center mb-6">
+                <img src="/MU%20logo.png" alt="Logo" className="h-20 w-20" />
+            </div>
+
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
