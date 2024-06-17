@@ -37,9 +37,17 @@ export default function Login({ status, canResetPassword }) {
                 <img src="/MU%20logo.png" alt="Logo" className="h-20 w-20 transition-transform transform hover:scale-110" />
             </div>
 
-            <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full relative">
-               
+            <button
+                onClick={exit}
+                className="absolute top-10 right-4 bg-transparent text-gray-500 hover:text-gray-800"
+                title="Exit"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
+            <div className="relative bg-white shadow-lg rounded-lg p-8 max-w-xl w-full" style={{ minHeight: '400px' }}>
                 <h2 className="text-2xl font-bold mb-6 text-center">Log in</h2>
 
                 {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
@@ -100,7 +108,7 @@ export default function Login({ status, canResetPassword }) {
                             </Link>
                         )}
 
-                       <PrimaryButton className="ml-4" disabled={processing}>
+                        <PrimaryButton className="ml-4" disabled={processing}>
                             {processing ? (
                                 <span className="flex items-center">
                                     <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-r-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
