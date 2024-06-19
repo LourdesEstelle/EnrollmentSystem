@@ -145,10 +145,10 @@ const Statistics = () => {
                     </li>
                 </ul>
                 <div className="text-right mt-4">
-    <a href={route('dashboard')} className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300 inline-block">
-        Back
-    </a>
-</div>
+                    <a href={route('dashboard')} className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300 inline-block">
+                        Back
+                    </a>
+                </div>
             </div>
         </div>
     );
