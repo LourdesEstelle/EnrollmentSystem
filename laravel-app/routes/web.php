@@ -7,17 +7,12 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnrollmentFormController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\PayController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\PersonalInfoFormController;
 use App\Http\Controllers\PersonalInfoController;
-use App\Models\Courses;
-use App\Models\Payment;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\StudentController;
 
 // Define the route for the welcome page
 Route::get('/', function () {
@@ -29,87 +24,45 @@ Route::get('/', function () {
     ]);
 });
 
-// Define the route for the statistics page
-Route::middleware(['auth'])->group(function () {
+// Define routes that require authentication
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/statistics', [StatisticsController::class, 'index'])->name('statistics');
+    Route::get('/dashboard/enrollment_view', [StatisticsController::class, 'index'])->name('enrollment_view');
+    Route::get('/dashboard/department', [DepartmentController::class, 'index'])->name('department');
+    Route::get('/dashboard/students_view', [StudentsController::class, 'index'])->name('students_view');
+    Route::get('/dashboard/students_profile', [StudentsController::class, 'index'])->name('students_profile');
+    Route::get('/dashboard/enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
+    Route::get('/dashboard/courses', [CourseController::class, 'index']);
+    Route::get('/dashboard/payment', [PaymentController::class, 'index']);
+    Route::get('/dashboard/payment/list', [PaymentController::class, 'paymentList']);
+    Route::get('/dashboard/payment/summary', [PaymentController::class, 'paymentSummary']);
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 });
-// Define the route for the Department page
-Route::get('/dashboard/department', [DepartmentController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('department');
 
-// Define the route for the students page
-Route::get('/dashboard/students_view', [StudentsController::class, 'index'])->name('students_view');
-Route::get('/dashboard/students_profile', [StudentsController::class, 'index'])->name('students_profile');
-
-
-// Define the route for the users page
-Route::get('/users', function () {
-    return Inertia::render('Users/UserComponent');
-})->middleware(['auth', 'verified']);
-
-// Define the route for the dashboard
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// Group routes that require authentication
+// Define profile routes that require authentication
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Define the route for retrieving payment
-
-
-// Define the route for the enrollment page
-Route::get('/dashboard/enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
-
-// Define the route for the enrollment form submission
-Route::post('/enroll', [EnrollmentFormController::class, 'store']);
-
-// Define the route for retrieving courses
-Route::get('/dashboard/courses', [CourseController::class, 'index']);
-
-Route::get('/dashboard/payment', [PaymentController::class, 'index']);
-
-
-// Define the route for retrieving enrollments
-Route::get('/enrollments', [EnrollmentFormController::class, 'index']);
-
-// Define the route for the personal info form
-Route::get('/Enrollment/PersonalInfo', [PersonalInfoFormController::class, 'index'])->name('PersonalInfo.index');
-
-// Define the route for storing personal info
-Route::post('/personal-info', [PersonalInfoController::class, 'store']);
-
-Route::get('/personal_view', [PersonalInfoController::class, 'index']);
-
-
-// UY SI HEV ABIIIII 
-
-
-Route::get('/Enrollment/PersonalInfo', [PersonalInfoFormController::class, 'index'])->name('PersonalInfo.index');
-Route::post('/personal-info', [PersonalInfoController::class, 'store']);
-
-
+// Define enrollment-related routes
 Route::post('/enroll', [EnrollmentFormController::class, 'store']);
 Route::get('/api/enrollments', [EnrollmentFormController::class, 'index']);
 Route::put('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'update']);
 Route::delete('/api/enrollment-forms/{id}', [EnrollmentFormController::class, 'destroy']);
 
-//Testing for Payment/List
-Route::get('/dashboard/payment/list', [PaymentController::class, 'paymentList']);
-Route::get('/dashboard/payment/summary', [PaymentController::class, 'paymentSummary']);
+// Define personal information-related routes
+Route::get('/Enrollment/PersonalInfo', [PersonalInfoFormController::class, 'index'])->name('PersonalInfo.index');
+Route::post('/personal-info', [PersonalInfoController::class, 'store']);
+Route::get('/personal_view', [PersonalInfoController::class, 'index']);
 
+// Define the route for the users page
+Route::get('/users', function () {
+    return Inertia::render('Users/UserComponent');
+})->middleware(['auth', 'verified']);
 
-
-
-
-
-
-
-
-
+// Include authentication routes
 require __DIR__.'/auth.php';

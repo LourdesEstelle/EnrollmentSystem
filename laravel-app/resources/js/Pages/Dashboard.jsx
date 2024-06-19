@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faFile, faBuildingColumns, faDollarSign, faChevronDown, faChevronRight, faSitemap, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faFile, faBuildingColumns, faDollarSign, faChevronDown, faChevronRight, faSitemap, faChartLine, faUserGraduate, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import Courses from './Courses';  // Import the Courses component
-import Enrollment from './Enrollment';  // Import the Enrollment component
+import Courses from './Courses';
+import Enrollment from './Enrollment';
+import Statistics from './Statistics';
+import EnrollmentView from './EnrollmentView'; // Correctly import EnrollmentView
 
 const Dashboard = ({ auth }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -43,11 +45,15 @@ const Dashboard = ({ auth }) => {
   };
 
   const navigateToStatistics = () => {
-    window.location.href = '/dashboard/statistics';
+    setActiveItem('Statistics');
   };
 
   const navigateToCourses = () => {
     setActiveItem('Courses');
+  };
+
+  const navigateToViewEnrollment = () => {
+    setActiveItem('View Enrollment');
   };
 
   const handleEditClick = (enrollment) => {
@@ -80,95 +86,84 @@ const Dashboard = ({ auth }) => {
   };
 
   const items = [
-    { icon: faGraduationCap, title: 'Courses', description: 'Manage your courses.', link: '#', onClick: navigateToCourses },
-    { icon: faSitemap, title: 'Enrollment', description: 'Manage your enrollment.', link: '#', onClick: navigateToEnrollment },
     { icon: faChartLine, title: 'Statistics', description: 'View your statistics.', link: '#', onClick: navigateToStatistics },
-    {
-      icon: faBuildingColumns,
-      title: 'Account',
-      isDropdown: true,
-      isOpen: dropdownState['Account'] || false,
-      subItems: [
-        { title: 'Profile', link: '/user/profile' },
-        { title: 'Logout', link: '/logout', onClick: () => { setDropdownState({ ...dropdownState, Account: false }); } },
-      ]
-    },
-    { icon: faFile, title: 'Class', description: 'Manage your class schedules and assignments.', link: '/dashboard/class' },
-    { icon: faDollarSign, title: 'Fees', description: 'Handle student fees and payments.', link: '/dashboard/fees' },
+    { icon: faSitemap, title: 'Enrollment', description: 'Manage your enrollment.', link: '#', onClick: navigateToEnrollment, subItems: [
+      { title: 'View Enrollment', onClick: navigateToViewEnrollment },
+      { title: 'Add Enrollment', onClick: () => console.log('Add Enrollment') }
+    ]},
+    { icon: faGraduationCap, title: 'Courses', description: 'Manage your courses.', link: '#', onClick: navigateToCourses },
+    { icon: faUserGraduate, title: 'Students', description: 'Manage your students.', link: '/dashboard/students' },
+    { icon: faCreditCard, title: 'Payment', description: 'Handle student fees and payments.', link: '/dashboard/fees' }
   ];
 
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Dashboard" />
 
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 bg-white border-b border-gray-200">
-              <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-              <button
-                className="lg:hidden block mb-4 text-blue-500"
-                onClick={toggleSidebar}
-              >
-                {isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-              </button>
-              <div className="lg:flex">
-                <div
-                  className={`w-full lg:w-1/4 lg:block ${isSidebarOpen ? 'block' : 'hidden'}`}
-                >
-                  <div className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
-                    <h2 className="text-lg font-semibold mb-4">Admin Panel</h2>
-                    <ul className="space-y-2">
-                      {items.map((item, index) => (
-                        <li key={index}>
-                          <Link
-                            href={item.link}
-                            onClick={item.onClick}
-                            className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg"
-                          >
-                            <FontAwesomeIcon icon={item.icon} />
-                            <span>{item.title}</span>
-                            {item.isDropdown && (
-                              <FontAwesomeIcon
-                                icon={item.isOpen ? faChevronDown : faChevronRight}
-                                className="ml-auto"
-                                onClick={() => toggleDropdown(item.title)}
-                              />
-                            )}
-                          </Link>
-                          {item.isDropdown && item.isOpen && (
-                            <ul className="space-y-1 ml-4 mt-2">
-                              {item.subItems.map((subItem, subIndex) => (
-                                <li key={subIndex}>
-                                  <Link
-                                    href={subItem.link}
-                                    className="block hover:bg-gray-700 p-2 rounded-lg"
-                                  >
-                                    {subItem.title}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
+      <div className="h-screen flex flex-col bg-gray-100">
+        {/* Header */}
+        <div className="bg-[#354A21] text-white p-4 shadow-md">
+          <div className="max-w-screen-xl mx-auto flex items-center justify-between">
+            <h1 className="text-xl font-bold">Dashboard</h1>
+            <button
+              className="lg:hidden text-white focus:outline-none"
+              onClick={toggleSidebar}
+            >
+              <FontAwesomeIcon icon={isSidebarOpen ? faChevronDown : faChevronRight} />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-grow overflow-hidden">
+          {/* Sidebar */}
+          <div
+            className={`fixed inset-y-0 left-0 w-64 bg-[#354A21] text-white p-4 shadow-lg transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
+          >
+            <ul className="space-y-2">
+              {items.map((item, index) => (
+                <li key={index} className="hover:bg-[#2D3B1B] p-2 rounded-lg transition-colors duration-300">
+                  <div className="flex items-center justify-between cursor-pointer" onClick={item.onClick}>
+                    <div className="flex items-center space-x-2">
+                      <FontAwesomeIcon icon={item.icon} />
+                      <span>{item.title}</span>
+                    </div>
+                    {item.subItems && (
+                      <FontAwesomeIcon
+                        icon={dropdownState[item.title] ? faChevronDown : faChevronRight}
+                        className="ml-auto cursor-pointer"
+                        onClick={() => toggleDropdown(item.title)}
+                      />
+                    )}
+                  </div>
+                  {item.subItems && dropdownState[item.title] && (
+                    <ul className="space-y-1 ml-6 mt-2">
+                      {item.subItems.map((subItem, subIndex) => (
+                        <li key={subIndex} className="hover:bg-[#2D3B1B] p-2 rounded-lg transition-colors duration-300 cursor-pointer">
+                          <span onClick={subItem.onClick}>{subItem.title}</span>
                         </li>
                       ))}
                     </ul>
-                  </div>
-                </div>
-                <div className="lg:flex-grow p-4 lg:ml-4">
-                  {activeItem === 'Courses' ? (
-                    <Courses />
-                  ) : activeItem === 'Enrollment' ? (
-                    <Enrollment auth={auth} />
-                  ) : (
-                    <div>
-                      {/* Add your default dashboard content here */}
-                      <p>Welcome to the dashboard!</p>
-                    </div>
                   )}
-                </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Main Content */}
+          <div className="flex-grow p-4 lg:ml-64 overflow-y-auto bg-white shadow-inner rounded-lg">
+            {activeItem === 'Courses' ? (
+              <Courses />
+            ) : activeItem === 'Enrollment' ? (
+              <Enrollment auth={auth} />
+            ) : activeItem === 'Statistics' ? (
+              <Statistics />
+            ) : activeItem === 'View Enrollment' ? (
+              <EnrollmentView /> // Render EnrollmentView component
+            ) : (
+              <div>
+                {/* Add your default dashboard content here */}
+                <p>Welcome to the dashboard!</p>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

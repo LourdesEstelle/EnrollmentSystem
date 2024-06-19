@@ -29,6 +29,11 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
+                  
+            <Link href="/" className="absolute top-0 right-0 mt-7 mr-4">
+                    <button type="button" className="text-4xl">&times;</button>
+                </Link>
+
             <div className="flex justify-center mb-6">
                 <img src="/MU%20logo.png" alt="Logo" className="h-20 w-20 transition-transform transform hover:scale-110" />
             </div>
